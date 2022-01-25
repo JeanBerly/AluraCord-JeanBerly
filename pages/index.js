@@ -169,10 +169,12 @@ function LoginBox(props){
                     border-radius: 50%;
                 }
                 #containerImg p{
+                    display: block;
+                    position: relative;
                     margin: auto;
                     padding: 5px;
                     color: white;
-                    background-color: ${colors.primary[999]};;
+                    background-color: ${colors.primary[900]};
                     border-radius: 20px;
                 }
                 ::placeholder{
