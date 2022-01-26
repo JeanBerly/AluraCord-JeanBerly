@@ -1,97 +1,28 @@
 import appConfig from '../config.json';
+import React from 'react';
+import { useRouter } from 'next/router';
+import chatPage from './chat';
 const colors = appConfig.theme.colors;
-function GlobalStyle(){
-    return(
-        <style global jsx>{`
-            *{
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                list-style: none;
-            }
-            body{
-                font-family: 'Serif', Times New Roman;
-            }
-            @media (max-width: 768px){
-                #LoginBox{
-                    align-items: center;
-                    width: fit-content;
-                    flex-direction: column;
-                }
-            }
-        `}
-        </style>
-    );
-}
-function PageBackground(props){
-    return(
-        <>
-            <div>
-                {props.children}
-            </div>
-            <style jsx>{
-            `
-                div{
-                    display: flex;
-                    min-width: 100vw;
-                    min-height: 100vh;
-                    justify-content: center;
-                    align-items: center;
-                    background-color: green;
-                    background-image: url('https://wallpaperaccess.com/full/3854450.jpg');
-                    background-size: cover;
-                }
-            `}
-            </style>
-        </>
-    );
-}
-function LoginBox(props){
-    const text = props.children;
-    const username = `https://github.com/${props.username}.png`;
+function FormBox(props){
     return (
         <>
-            <div id="LoginBox">
-                <form>
-                    <div id="LoginBox__containerTop">
-                        <h2>Welcome Back, {props.username}</h2>
-                        <p>AluraCord - Alura Bloh</p>
-                    </div>
-                    <div id="LoginBox__containerBottom">
-                        <input type="text" id="username" placeholder='Insert your username'></input>
-                        <input type="button" value='Enter'></input>
-                    </div>
-                </form>
-                <div id="containerImg">
-                    <img src={username}>
-                    </img>
-                    <p>{props.username}</p>
+            <form id="FormBox" onSubmit={function(eventInfo){
+                eventInfo.preventDefault();
+                props.router.push('/chat');
+            }}>
+                <div id="FormBox__containerTop">
+                    <h2>Welcome Back!</h2>
+                    <p>AluraCord - Alura Bloh</p>
                 </div>
-            </div>
+                <div id="FormBox__containerBottom">
+                    <input type="text" id="username" placeholder='Insert your username' onChange={function (event){
+                        const name = event.target.value;
+                        props.setUsername(name);
+                    }} ></input>
+                    <input type="submit" value='Enter'></input>
+                </div>
+            </form>
             <style jsx>{`
-                #LoginBox{
-                    display: flex;
-                    position: relative;
-                    justify-content: space-between;
-                    min-width: 35vw;
-                    // background-color: ${colors.neutrals[600]};
-                    background-color: white;
-                    border-radius: 1rem;
-                    background: inherit;
-                }
-                #LoginBox:before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: inherit;
-                }
-                #LoginBox:before {
-                    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .1);
-                    filter: blur(5px);
-                }
                 form{
                     display: flex;
                     position: relative;
@@ -106,7 +37,7 @@ function LoginBox(props){
                     text-align: center;
                     margin: 10px;
                 }
-                #LoginBox__containerTop{
+                #FormBox__containerTop{
                     background-color: rgba(0, 0, 0, 0.6);
                     border-radius: 50px;
                     padding: 5px;
@@ -119,7 +50,7 @@ function LoginBox(props){
                     // color: ${colors.neutrals[300]};
                     color: ${colors.primary[300]}
                 }
-                #LoginBox__containerBottom{
+                #FormBox__containerBottom{
                     display: flex;
                     flex-direction: column;
                     justify-content: start;
@@ -137,7 +68,7 @@ function LoginBox(props){
                     border-radius: 15px;
                     color: pink;
                 }
-                input[type='button']{
+                input[type='submit']{
                     display: block;
                     margin: 4px auto;
                     width: 100%;
@@ -148,6 +79,29 @@ function LoginBox(props){
                     border-style: solid;
                     border-radius: 15px;
                 }
+                ::placeholder{
+                    text-align: center;
+                    // color: ${colors.neutrals[200]};
+                    color: ${colors.primary[400]};
+                }
+            `}
+            </style>
+        </>
+    )
+}
+function ProfileBox(props){
+    const usernameImg = `https://github.com/${props.username}.png`;
+    return (
+        <>
+            <div id="containerImg">
+                <img src={usernameImg} onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src="https://pbs.twimg.com/profile_images/1183307306995306496/P1K5Kt_5_400x400.jpg";
+                }}>
+                </img>
+                <p>{props.username}</p>
+            </div>
+            <style jsx>{`
                 #containerImg{
                     display: flex;
                     flex-direction: column;
@@ -174,29 +128,61 @@ function LoginBox(props){
                     margin: auto;
                     padding: 5px;
                     color: white;
+                    min-width: 100%;
+                    max-width: 100%;
                     background-color: ${colors.primary[900]};
                     border-radius: 20px;
-                }
-                ::placeholder{
                     text-align: center;
-                    // color: ${colors.neutrals[200]};
-                    color: ${colors.primary[400]};
+                }
+            `}</style>
+        </>
+    )
+}
+function LoginBox(props){
+    return (
+        <>
+            <div id="LoginBox">
+                {props.children}
+            </div>
+            <style jsx>{`
+                #LoginBox{
+                    display: flex;
+                    position: relative;
+                    justify-content: space-around;
+                    width: 40vw;
+                    height: 30vh;
+                    // background-color: ${colors.neutrals[600]};
+                    background-color: white;
+                    border-radius: 1rem;
+                    background: inherit;
+                }
+                #LoginBox:before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: inherit;
+                }
+                #LoginBox:before {
+                    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .1);
+                    filter: blur(5px);
                 }
             `}</style>
         </>
     );
 }
-function HomePage() {
-    const username = 'JeanBerly'
+function HomePage(){
+    const [username, setUsername] = React.useState('JeanBerly');
+    const router = useRouter();
     return (    
         <>
-                <GlobalStyle/>
-                <PageBackground>
-                    <LoginBox username={username}>
-                    </LoginBox>
-                </PageBackground>
+            <LoginBox>
+                <FormBox username={username} setUsername={setUsername} router={router}></FormBox>
+                <ProfileBox username={username}></ProfileBox>
+            </LoginBox>
         </>
     )
 }
-  
 export default HomePage
