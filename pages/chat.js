@@ -1,7 +1,9 @@
 import configs from '../config.json';
 import React from 'react';
+import { useRouter } from 'next/router';
 const colors = configs.theme.colors;
 export default function chatPage() {
+    const router = useRouter();
     const idMsg = 0;
     const [message, setMessage] = React.useState('');
     const [chatHistory, setChatHistory] = React.useState([]);
@@ -27,6 +29,10 @@ export default function chatPage() {
                         position: relative;
                         height: 10%;
                         min-height: fit-content;
+                        background-color: rgba(0, 0, 0, 0.1);
+                    }
+                    div:nth-child(odd){
+                        background-color: rgba(0, 0, 0, 0.2);
                     }
                     img{
                         position: relative;
@@ -70,7 +76,7 @@ export default function chatPage() {
     return (
         <>
             <ChatBox>
-                <Header></Header>
+                <Header router={router}></Header>
                 <Chat chatHistory={chatHistory}>
                     {bloh}
                 </Chat>
@@ -90,9 +96,21 @@ function ChatBox(props) {
                     align-items: center;
                     position: relative;
                     flex-direction: column;
-                    background-color: ${colors.neutrals[800]};
                     width: 90vw;
                     height: 85vh;
+                }
+                div:before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: inherit;
+                }
+                div:before {
+                    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+                    filter: blur(5px);
                 }
             `}</style>
         </>
@@ -103,7 +121,9 @@ function Header(props) {
         <>
             <header>
                 <span>Chat</span>
-                <span>Logout</span>
+                <span onClick={() =>{
+                    props.router.push('/');
+                }}>Logout</span>
             </header>
             <style jsx>{`
                 *{
@@ -122,6 +142,7 @@ function Header(props) {
                     display: inline-block;
                     padding: 10px;
                     margin-right: auto;
+                    color: white;
                 }
                 span:nth-child(2){
                     padding: 10px;
@@ -129,7 +150,7 @@ function Header(props) {
                 }
                 span:nth-child(2):hover{
                     cursor: pointer;
-                    background-color: rgba(255, 255, 255, 0.3);
+                    background-color: rgba(0, 0, 0, 0.8);
                 }
             `}</style>
         </>
@@ -147,11 +168,23 @@ function Chat(props) {
                     color: white;
                     width: 95%;
                     height: 85%;
-                    background-color: ${colors.neutrals[700]};
                     border-radius: 20px;
                     margin: auto 0;
                     min-height: fit-content;
                     overflow-y: auto;
+                }
+                main:before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: inherit;
+                }
+                main:before {
+                    box-shadow: inset 0 0 2000px rgba(0, 0, 0, .95);
+                    filter: blur(2px);
                 }
             `}</style>
         </>
@@ -208,8 +241,9 @@ function Footer(props) {
                     height: calc(15px + 3.5vmax);
                     margin-right: auto;
                     border-radius: 50%;
-                    color: black;
                     font-size: calc(7.5px + 1vmax);
+                    background-color: black;
+                    color: white;
                 }
                 #buttonEmojis:hover{
                     cursor: pointer;
