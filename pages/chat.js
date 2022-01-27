@@ -1,12 +1,48 @@
 import configs from '../config.json';
 import React from 'react';
 import { useRouter } from 'next/router';
+import { createClient } from '@supabase/supabase-js';
+
+export async function getServerSideProps(context) {
+    //Conexão com o SupaBase
+    const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+
+    const SUPABASE_URL = process.env.SUPABASE_URL
+
+    return {
+        props: {
+            SUPABASE_ANON_KEY,
+            SUPABASE_URL
+        },
+    }
+}
+
 const colors = configs.theme.colors;
-export default function chatPage() {
+// IMPORTANT! IN AN IDEAL SCENARIO YOU SHOULD NOT MAKE THIS KEY VISIBLE TO OTHERS!!
+// const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+// const SUPABASE_URL = process.env.SUPABASE_URL;
+
+export default function chatPage({SUPABASE_ANON_KEY, SUPABASE_URL}) {
     const router = useRouter();
     const idMsg = 0;
     const [message, setMessage] = React.useState('');
     const [chatHistory, setChatHistory] = React.useState([]);
+    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const supabaseData = supabaseClient
+        .from('chatHistory')
+        .select('*')
+        .then((data) =>{
+            console.log('Supabase data:', data);
+        });
+    React.useEffect(() =>{
+        const supabaseData = supabaseClient
+            .from('chatHistory')
+            .select('*')
+            .then(({ data }) =>{
+                setChatHistory(data);
+            });
+    }, []);
     let bloh = chatHistory.map((msg) => {
         const imgGit = `https://github.com/${msg.user}.png`;
         return (
@@ -63,15 +99,26 @@ export default function chatPage() {
     });
     function handleNewMessage(newMessage) {
         const message = {
-            id: Date.now(),
+            // id: Date.now(),
             user: 'JeanBerly',
-            text: newMessage,
-            date: '15/12/2022'
+            text: newMessage
+            // date: '15/12/2022'
         }
-        setChatHistory([
-            ...chatHistory,
-            message
-        ]);
+        supabaseClient
+            .from('chatHistory')
+            .insert([
+                message
+            ])
+            .then(({ data }) =>{
+                setChatHistory([
+                    ...chatHistory,
+                    data[0],
+                ]);
+            })
+        // setChatHistory([
+        //     ...chatHistory,
+        //     message
+        // ]);
     }
     return (
         <>
