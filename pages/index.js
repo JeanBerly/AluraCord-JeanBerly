@@ -8,7 +8,11 @@ function FormBox(props){
         <>
             <form id="FormBox" onSubmit={function(eventInfo){
                 eventInfo.preventDefault();
-                props.router.push('/chat');
+                const username = document.getElementById('username').value;
+                props.router.push({
+                    pathname: "/chat",
+                    query: { user: username },
+                  });
             }}>
                 <div id="FormBox__containerTop">
                     <h2>Welcome Back!</h2>
