@@ -37,6 +37,7 @@ function GlobalStyle(){
             @media (max-width: 1116px){
                 #LoginBox{
                     align-items: center;
+                    justify-content: center;
                     min-width: 90vw;
                     flex-direction: column;
                     min-height: 50vh;

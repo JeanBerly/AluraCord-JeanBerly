@@ -30,7 +30,6 @@ function FormBox(props){
                 form{
                     display: flex;
                     position: relative;
-                    max-width: 50%;
                     flex-direction: column;
                     justify-content: space-around;
                     position: relative;
@@ -77,6 +76,7 @@ function FormBox(props){
                     margin: 4px auto;
                     width: 100%;
                     height: 30%;
+                    font-size: 15px;
                     color: ${colors.neutrals[100]};
                     background-color: ${colors.primary[400]};
                     border-color: ${colors.neutrals[100]};
@@ -84,6 +84,7 @@ function FormBox(props){
                     border-radius: 15px;
                 }
                 ::placeholder{
+                    font-size: clamp(10px, 1vmax, 20px);
                     text-align: center;
                     // color: ${colors.neutrals[200]};
                     color: ${colors.primary[400]};
@@ -110,7 +111,6 @@ function ProfileBox(props){
                     display: flex;
                     flex-direction: column;
                     width: 30%;
-                    margin-right: 5%;
                     // background-color: ${colors.neutrals[900]};
                     background-color: ${colors.primary[900]};
                     border-radius: 20px;
@@ -132,8 +132,6 @@ function ProfileBox(props){
                     margin: auto;
                     padding: 5px;
                     color: white;
-                    min-width: 100%;
-                    max-width: 100%;
                     background-color: ${colors.primary[900]};
                     border-radius: 20px;
                     text-align: center;
@@ -154,8 +152,6 @@ function LoginBox(props){
                     position: relative;
                     justify-content: space-around;
                     width: 40vw;
-                    height: 30vh;
-                    // background-color: ${colors.neutrals[600]};
                     background-color: white;
                     border-radius: 1rem;
                     background: inherit;

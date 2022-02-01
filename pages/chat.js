@@ -50,6 +50,7 @@ export default function chatPage({ SUPABASE_ANON_KEY, SUPABASE_URL }) {
             .from('chatHistory')
             .select('*')
             .then(({ data }) => {
+                console.log('supabase: ', data);
                 setChatHistory(data);
             });
         //updateRealTime(supabaseClient);
@@ -135,7 +136,6 @@ export default function chatPage({ SUPABASE_ANON_KEY, SUPABASE_URL }) {
                         color: white;
                         min-height: fit-content;
                         margin-left: 1%;
-                        background-color: rgba(0, 0, 0, 0.3);
                         border-radius: 2px;
                     }
                     button{
@@ -152,7 +152,6 @@ export default function chatPage({ SUPABASE_ANON_KEY, SUPABASE_URL }) {
         )
     });
     function handleNewMessage(newMessage) {
-        const d = new Date();
         const message = {
             // id: Date.now(),
             user: username,
@@ -169,7 +168,7 @@ export default function chatPage({ SUPABASE_ANON_KEY, SUPABASE_URL }) {
             })
         setChatHistory([
             ...chatHistory,
-            message
+            message,
         ]);
     }
     return (
@@ -208,6 +207,7 @@ function ChatBox(props) {
                     background: inherit;
                 }
                 div:before {
+                    background-color: rgba(0, 0, 0, 0.3);
                     box-shadow: inset 0 0 2000px rgba(0, 0, 0, 1);
                     filter: blur(5px);
                 }
