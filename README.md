@@ -12,6 +12,7 @@ os usuários pudessem trocar mensagens e logarem com os seus nomes de usuário d
   <li>Javascript</li>
   <li>ReactJS</li>
   <li>NextJS</li>
+  <li>SupaBase (Backend as a Service)</li>
 </ul>
 <h3>Imagens do Projeto</h3>
 
