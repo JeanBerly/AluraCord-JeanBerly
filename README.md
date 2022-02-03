@@ -14,3 +14,6 @@ os usuários pudessem trocar mensagens e logarem com os seus nomes de usuário d
   <li>NextJS</li>
 </ul>
 <h3>Imagens do Projeto</h3>
+
+![image](https://user-images.githubusercontent.com/94989737/152411205-23d5cf84-3d2b-4634-a82b-5772148d4ed5.png)
+
